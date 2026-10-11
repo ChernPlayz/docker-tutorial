@@ -1,0 +1,30 @@
+services:
+  prod:
+    build:
+      context: .
+      dockerfile: Dockerfile.prod
+    image: docker-tutorial:prod
+    container_name: docker-tutorial-prod
+    ports:
+      - "8080:8080"
+
+  dev:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    image: docker-tutorial:dev
+    container_name: docker-tutorial-dev
+    ports:
+      - "3000:3000"
+    environment:
+      - WATCHPACK_POLLING=true
+    develop:
+      watch:
+        - action: sync
+          path: .
+          target: /app
+          ignore:
+            - node_modules/
+            - .next/
+        - action: rebuild
+          path: package.json
